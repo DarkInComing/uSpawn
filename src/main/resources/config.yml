@@ -12,7 +12,7 @@ dev: 'DarkInComing#5909'
 dev_discord: 'discord.darksolutions.it'
 
 #Prefix for eventual messages:
-Prefix: '&e&lu&6Spawn&8>'
+Prefix: '&eu&6&lSpawn&8>'
 
 #Message no-perm
 No-perm: '&cYou don'' have permission for execute this command!'
@@ -32,6 +32,14 @@ No-firstspawn: '&cNo firstspawn points have been set!'
 #No spawn point set.
 No-spawn: '&cNo spawn points have been set.'
 
+# Join message settings
+Join:
+  Enabled: true
+  Message: '&7[&a+&7] %player%'
+
+Quit:
+  Enabled: true
+  Message: '&7[&c-&7] %player%'
 # DATA - don't touch underlying strings.
 firstspawn:
   X:
