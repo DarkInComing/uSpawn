@@ -1,0 +1,50 @@
+########################################
+#                                      #
+#        uSpawn v.0.1-SNAPSHOT         #
+#     a Dark Solutions Production!     #
+#                                      #
+########################################
+
+#Developer help:
+dev: 'DarkInComing#5909'
+
+#Dev discord:
+dev_discord: 'discord.darksolutions.it'
+
+#Prefix for eventual messages:
+Prefix: '&e&lu&6Spawn&8>'
+
+#Message no-perm
+No-perm: '&cYou don'' have permission for execute this command!'
+
+#Message to confirm the spawn point
+Success-spawnpoint: '&aSpawnpoint successfully set to your location! '
+
+#Message to confirm the first spawn point
+Success-firstspawnpoint: '&aFirst spawnpoint successfully set to your location! '
+
+#Message no-console
+Noconsole-command: '&cThis command can only be performed in-game by a player!'
+
+#No first-spawn point set
+No-firstspawn: '&cNo firstspawn points have been set!'
+
+#No spawn point set.
+No-spawn: '&cNo spawn points have been set.'
+
+# DATA - don't touch underlying strings.
+firstspawn:
+  X:
+  Y:
+  Z:
+  pitch:
+  yaw:
+  world:
+
+spawn:
+  X:
+  Y:
+  Z:
+  pitch:
+  yaw:
+  world:

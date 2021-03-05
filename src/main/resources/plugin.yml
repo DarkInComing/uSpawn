@@ -1,0 +1,9 @@
+name: uSpawn
+main: it.darksolutions.uspawn.Main
+version: 1.0-PUBLIC
+description: A Dark Solutions Production!
+author: DarkSolutions
+commands:
+  uspawn:
+  spawn:
+
