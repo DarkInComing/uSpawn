@@ -1,7 +1,8 @@
 package it.darksolutions.uspawn.commands;
 
-import it.darksolutions.uspawn.Main;
+import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.utils.Messages;
+import it.darksolutions.uspawn.utils.TypeSerializations;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -14,13 +15,12 @@ import java.util.Objects;
 
 public class AdminCommands implements CommandExecutor {
 
-    Main main = Main.getInstance();
-    FileConfiguration file = main.getConfig();
 
-    public AdminCommands(Main main) {
+    public AdminCommands(uSpawn uSpawn) {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        FileConfiguration file = uSpawn.getInstance().getConfig();
         Player p = (Player) sender;
         if(!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(Messages.NO_CONSOLE);
@@ -28,7 +28,7 @@ public class AdminCommands implements CommandExecutor {
         }
         if(p.hasPermission("uspawn.admin") || p.isOp()) {
             if(args.length == 0) {
-                p.sendMessage(" §6u§6§lSpawn §7v." + main.getDescription().getVersion());
+                p.sendMessage(" §6u§6§lSpawn §7v." + uSpawn.getInstance().getDescription().getVersion());
                 p.sendMessage(" §b§ndiscord.darksolutions.it");
                 p.sendMessage(" ");
                 p.sendMessage(" §2» §a/uspawn help");
@@ -47,7 +47,7 @@ public class AdminCommands implements CommandExecutor {
                 return true;
             }
             if(args[0].equalsIgnoreCase("help")) {
-                p.sendMessage(" §6u§6§lSpawn §7v." + main.getDescription().getVersion());
+                p.sendMessage(" §6u§6§lSpawn §7v." + uSpawn.getInstance().getDescription().getVersion());
                 p.sendMessage(" §fdiscord.darksolutions.it");
                 p.sendMessage(" ");
                 p.sendMessage(" §2» §a/uspawn help");
@@ -67,20 +67,9 @@ public class AdminCommands implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("setfirstspawn")) {
                 Location loc = p.getLocation();
-                int X = loc.getBlockX();
-                int Y = loc.getBlockY();
-                int Z = loc.getBlockZ();
-                float pitch = loc.getPitch();
-                float yaw = loc.getYaw();
-                String world = Objects.requireNonNull(loc.getWorld().getName());
                 try {
-                    file.set("firstspawn.X", Double.valueOf(X) + 0.5);
-                    file.set("firstspawn.Y", Double.valueOf(Y) + 0.5);
-                    file.set("firstspawn.Z", Double.valueOf(Z) + 0.5);
-                    file.set("firstspawn.pitch", Float.valueOf(pitch));
-                    file.set("firstspawn.yaw", Float.valueOf(yaw));
-                    file.set("firstspawn.world", String.valueOf(world));
-                    main.saveConfig();
+                    uSpawn.getInstance().getLocationUtils().serializeLocation(uSpawn.getInstance(), loc, TypeSerializations.FIRSTSPAWN);
+                    uSpawn.getInstance().saveConfig();
                     p.sendMessage(Messages.SUCCESS_FIRSTSPAWNPOINT);
                 } catch (Exception exception) {
                     Bukkit.getConsoleSender().sendMessage("§cThere was an error while saving!");
@@ -89,21 +78,11 @@ public class AdminCommands implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("setspawn")) {
                 Location loc = p.getLocation();
-                int X = loc.getBlockX();
-                int Y = loc.getBlockY();
-                int Z = loc.getBlockZ();
-                float pitch = loc.getPitch();
-                float yaw = loc.getYaw();
-                String world = Objects.requireNonNull(loc.getWorld().getName());
                 try {
-                    file.set("spawn.X", Double.valueOf(X) + 0.5);
-                    file.set("spawn.Y", Double.valueOf(Y) + 0.5);
-                    file.set("spawn.Z", Double.valueOf(Z) + 0.5);
-                    file.set("spawn.pitch", Float.valueOf(pitch));
-                    file.set("spawn.yaw", Float.valueOf(yaw));
-                    file.set("spawn.world", String.valueOf(world));
-                    main.saveConfig();
-                    Bukkit.getWorld(world).setSpawnLocation(loc);
+                    uSpawn.getInstance().getLocationUtils().serializeLocation(uSpawn.getInstance(), loc, TypeSerializations.FIRSTSPAWN);
+                    uSpawn.getInstance().saveConfig();
+                    uSpawn.getInstance().saveConfig();
+                    loc.getWorld().setSpawnLocation(loc);
                     p.sendMessage(Messages.SUCCESS_SPAWNPOINT);
                 } catch (Exception exception) {
                     Bukkit.getConsoleSender().sendMessage("§cThere was an error while saving!");

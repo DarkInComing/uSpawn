@@ -1,6 +1,6 @@
 package it.darksolutions.uspawn.commands;
 
-import it.darksolutions.uspawn.Main;
+import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.utils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,19 +12,18 @@ import org.bukkit.entity.Player;
 
 public class SpawnCommand implements CommandExecutor {
 
-    Main main = Main.getInstance();
-    FileConfiguration file = main.getConfig();
 
-    public SpawnCommand(Main main) {
+    public SpawnCommand(uSpawn uSpawn) {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
+        FileConfiguration file = uSpawn.getInstance().getConfig();
         if(!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(Messages.NO_CONSOLE);
             return true;
         }
-        if(file.getConfigurationSection("spawn").getKeys(false).isEmpty()) {
+        if(uSpawn.getInstance().getConfig().getConfigurationSection("spawn").getKeys(false).isEmpty()) {
             p.sendMessage(Messages.NO_SPAWNPOINT);
         } else {
             try {

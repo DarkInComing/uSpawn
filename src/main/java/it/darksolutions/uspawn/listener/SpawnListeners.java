@@ -1,6 +1,6 @@
 package it.darksolutions.uspawn.listener;
 
-import it.darksolutions.uspawn.Main;
+import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.versioncheck.VersionChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,14 +12,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SpawnListeners implements Listener {
 
-    Main main = Main.getInstance();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         final Player p = event.getPlayer();
-        FileConfiguration file = main.getConfig();
+        FileConfiguration file = uSpawn.getInstance().getConfig();
         if(!p.hasPlayedBefore()) {
-            if(!(main.getConfig().getConfigurationSection("firstspawn").getKeys(false).isEmpty())) {
+            if(!(uSpawn.getInstance().getConfig().getConfigurationSection("firstspawn").getKeys(false).isEmpty())) {
                 try {
                     double X = file.getDouble("firstspawn.X");
                     double Y = file.getDouble("firstspawn.Y");
@@ -37,7 +36,7 @@ public class SpawnListeners implements Listener {
                 Bukkit.getConsoleSender().sendMessage("§cNo firstspawn points have been registered for §4" + p.getName());
             }
         } else {
-            if(!(main.getConfig().getConfigurationSection("spawn").getKeys(false).isEmpty())) {
+            if(!(uSpawn.getInstance().getConfig().getConfigurationSection("spawn").getKeys(false).isEmpty())) {
                 try {
                     double X = file.getDouble("spawn.X");
                     double Y = file.getDouble("spawn.Y");
@@ -47,9 +46,6 @@ public class SpawnListeners implements Listener {
                     String world = file.getString("spawn.world");
                     Location loc = new Location(Bukkit.getWorld(world), X, Y, Z, yaw, pitch);
                     p.teleport(loc);
-                    if(p.hasPermission("uspawn.admin")||p.isOp()) {
-                        main.checkVersion(p);
-                     }
                 } catch (Exception exception) {
                     Bukkit.getConsoleSender().sendMessage("§cAn error occurred while loading data from the config. More information:");
                     exception.printStackTrace();

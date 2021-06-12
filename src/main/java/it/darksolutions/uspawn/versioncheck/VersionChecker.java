@@ -1,6 +1,5 @@
 package it.darksolutions.uspawn.versioncheck;
 
-import it.darksolutions.uspawn.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +12,6 @@ import java.util.Scanner;
 
 public class VersionChecker implements Listener {
 
-    Main main = Main.getInstance();
     private JavaPlugin plugin;
     private int resourceId;
 

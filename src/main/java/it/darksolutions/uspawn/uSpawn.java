@@ -6,6 +6,7 @@ import it.darksolutions.uspawn.commands.SpawnCommand;
 import it.darksolutions.uspawn.listener.JoinMessageListener;
 import it.darksolutions.uspawn.listener.QuitMessageListener;
 import it.darksolutions.uspawn.listener.SpawnListeners;
+import it.darksolutions.uspawn.utils.LocationUtils;
 import it.darksolutions.uspawn.versioncheck.VersionChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,13 +18,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Main extends JavaPlugin implements Listener, CommandExecutor {
+public class uSpawn extends JavaPlugin implements uSpawnAPI, Listener, CommandExecutor {
 
-    private static Main instance;
     public static boolean checkVersion;
+    private static uSpawn instance;
+    private LocationUtils utils;
 
 
-    public static Main getInstance() {
+    public static uSpawn getInstance() {
         return instance;
     }
 
@@ -34,6 +36,7 @@ public class Main extends JavaPlugin implements Listener, CommandExecutor {
         registerListeners();
         registerMetrics();
         registerTask();
+        this.utils = new LocationUtils();
     }
 
     public void registerListeners() {
@@ -80,7 +83,8 @@ public class Main extends JavaPlugin implements Listener, CommandExecutor {
     }
 
 
-
-
-
+    @Override
+    public LocationUtils getLocationUtils() {
+        return utils;
+    }
 }

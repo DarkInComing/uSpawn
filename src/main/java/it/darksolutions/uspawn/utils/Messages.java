@@ -1,12 +1,12 @@
 package it.darksolutions.uspawn.utils;
 
-import it.darksolutions.uspawn.Main;
+import it.darksolutions.uspawn.uSpawn;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Messages {
 
-    static FileConfiguration file = Main.getInstance().getConfig();
+    static FileConfiguration file = uSpawn.getInstance().getConfig();
 
     public static  String NO_PERM = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-perm"));
     public static  String SUCCESS_SPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Success-spawnpoint"));

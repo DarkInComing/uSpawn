@@ -41,18 +41,6 @@ Quit:
   Enabled: true
   Message: '&7[&c-&7] %player%'
 # DATA - don't touch underlying strings.
-firstspawn:
-  X:
-  Y:
-  Z:
-  pitch:
-  yaw:
-  world:
+firstspawn: ''
 
-spawn:
-  X:
-  Y:
-  Z:
-  pitch:
-  yaw:
-  world:
+spawn: ''
