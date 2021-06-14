@@ -8,10 +8,11 @@ public class Messages {
 
     static FileConfiguration file = uSpawn.getInstance().getConfig();
 
-    public static  String NO_PERM = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-perm"));
-    public static  String SUCCESS_SPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Success-spawnpoint"));
-    public static  String SUCCESS_FIRSTSPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Success-firstspawnpoint"));
-    public static String NO_CONSOLE = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Noconsole-command"));
-    public static String NO_FIRSTPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-firstspawn"));
-    public static String NO_SPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-spawn"));
+    public String PREFIX = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix"));
+    public   String NO_PERM = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-perm"));
+    public   String SUCCESS_SPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Success-spawnpoint"));
+    public String SUCCESS_FIRSTSPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Success-firstspawnpoint"));
+    public String NO_CONSOLE = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("Noconsole-command"));
+    public String NO_FIRSTPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-firstspawn"));
+    public String NO_SPAWNPOINT = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-spawn"));
 }
