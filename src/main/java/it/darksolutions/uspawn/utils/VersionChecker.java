@@ -1,4 +1,4 @@
-package it.darksolutions.uspawn.versioncheck;
+package it.darksolutions.uspawn.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -12,8 +12,8 @@ import java.util.function.Consumer;
 
 public class VersionChecker implements Listener {
 
-    private JavaPlugin plugin;
-    private int resourceId;
+    private final JavaPlugin plugin;
+    private final int resourceId;
 
     public VersionChecker(JavaPlugin plugin, int resourceId) {
         this.plugin = plugin;

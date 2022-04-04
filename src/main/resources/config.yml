@@ -20,9 +20,6 @@ No-perm: '&cYou don'' have permission for execute this command!'
 #Message to confirm the spawn point
 Success-spawnpoint: '&aSpawnpoint successfully set to your location! '
 
-#Message to confirm the first spawn point
-Success-firstspawnpoint: '&aFirst spawnpoint successfully set to your location! '
-
 #Message no-console
 Noconsole-command: '&cThis command can only be performed in-game by a player!'
 

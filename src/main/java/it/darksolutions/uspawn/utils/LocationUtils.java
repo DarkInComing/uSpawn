@@ -12,10 +12,8 @@ public class LocationUtils {
         FileConfiguration fileConfiguration = uSpawn.getConfig();
         try {
             fileConfiguration.set(typeSerializations.getDirFile(), location.getX() + ";" + location.getY() + ";" + location.getZ() + ";" + location.getPitch() + ";" + location.getYaw() + ";" +  location.getWorld().getName());
-        } catch (Exception exception) {
-
+        } catch (Exception ignored) {
         }
-
     }
 
     public Location deserializeLocation(uSpawn uSpawn, TypeSerializations serializations) {
@@ -32,9 +30,7 @@ public class LocationUtils {
             float yaw = Float.parseFloat(parts[4]);
             World world = uSpawn.getServer().getWorld(parts[5]);
             return new Location(world, x, y, z, yaw, pitch);
-        } catch (Exception exception) {
-
-        }
+        } catch (Exception ignored) {}
         return null;
     }
 }

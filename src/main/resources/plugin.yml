@@ -1,6 +1,6 @@
 name: uSpawn
 main: it.darksolutions.uspawn.uSpawn
-version: 1.4.1-PUBLIC
+version: 1.5-SNAPSHOT
 description: A Dark Solutions Production!
 author: DarkSolutions
 commands:

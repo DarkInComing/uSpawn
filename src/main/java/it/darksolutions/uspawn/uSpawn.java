@@ -1,36 +1,31 @@
 package it.darksolutions.uspawn;
 
-import it.darksolutions.uspawn.Metrics.Metrics;
-import it.darksolutions.uspawn.commands.AdminCommands;
-import it.darksolutions.uspawn.commands.SpawnCommand;
-import it.darksolutions.uspawn.listener.JoinMessageListener;
-import it.darksolutions.uspawn.listener.QuitMessageListener;
-import it.darksolutions.uspawn.listener.SpawnListeners;
-import it.darksolutions.uspawn.utils.LocationUtils;
-import it.darksolutions.uspawn.utils.Messages;
-import it.darksolutions.uspawn.versioncheck.VersionChecker;
+import it.darksolutions.uspawn.api.metrics.Metrics;
+import it.darksolutions.uspawn.api.uSpawnAPI;
+import it.darksolutions.uspawn.commands.*;
+import it.darksolutions.uspawn.listener.*;
+import it.darksolutions.uspawn.utils.*;
+import it.darksolutions.uspawn.utils.VersionChecker;
+import it.darksolutions.uspawn.utils.chat.Messages;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Arrays;
 
-public class uSpawn extends JavaPlugin implements uSpawnAPI, Listener, CommandExecutor {
+@Getter
+public class uSpawn extends JavaPlugin implements uSpawnAPI {
 
-    public static boolean checkVersion;
-    private static uSpawn instance;
+    @Getter private static uSpawn instance;
+
+    private static boolean checkVersion;
     private LocationUtils utils;
     private Messages messages;
 
-
-    public static uSpawn getInstance() {
-        return instance;
-    }
-
+    @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
@@ -42,27 +37,23 @@ public class uSpawn extends JavaPlugin implements uSpawnAPI, Listener, CommandEx
         this.messages = new Messages();
     }
 
-    public void registerListeners() {
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(this, this);
-        pm.registerEvents(new SpawnListeners(this), this);
-        pm.registerEvents(new JoinMessageListener(), this);
-        pm.registerEvents(new QuitMessageListener(), this);
+    private void registerListeners() {
+        Arrays.asList(new Listener[] { new PlayerListener(), new SpawnListener() }).forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents(listener, this));
     }
 
     public void registerCommands() {
-        getCommand("uspawn").setExecutor(new AdminCommands(this));
-        getCommand("spawn").setExecutor(new SpawnCommand(this));
+        getCommand("uspawn").setExecutor(new AdminCommand());
+        getCommand("spawn").setExecutor(new SpawnCommand());
     }
 
     public void registerMetrics() {
         int pluginId = 10317;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, pluginId);
     }
 
     public void registerTask() {
         new VersionChecker(this, 89763).getVersion(version -> {
-            if(this.getDescription().getVersion().equalsIgnoreCase(version))  {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version))  {
                 Bukkit.getConsoleSender().sendMessage("[uSpawn] §aThere is not a new update available!");
             } else {
                 Bukkit.getConsoleSender().sendMessage( "[uSpawn] §cThere is a new update available!");
@@ -73,8 +64,9 @@ public class uSpawn extends JavaPlugin implements uSpawnAPI, Listener, CommandEx
 
     public boolean checkVersion(Player p) {
         String prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Prefix"));
+
         new VersionChecker(this, 89763).getVersion(version -> {
-            if(this.getDescription().getVersion().equalsIgnoreCase(version))  {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version))  {
                 checkVersion = true;
                 p.sendMessage(prefix +  " §aThere is not a new update available!");
             } else {
@@ -84,7 +76,6 @@ public class uSpawn extends JavaPlugin implements uSpawnAPI, Listener, CommandEx
         });
         return checkVersion;
     }
-
 
     @Override
     public LocationUtils getLocationUtils() {

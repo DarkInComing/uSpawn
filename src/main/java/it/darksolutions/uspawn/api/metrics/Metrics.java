@@ -1,4 +1,4 @@
-package it.darksolutions.uspawn.Metrics;
+package it.darksolutions.uspawn.api.metrics;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

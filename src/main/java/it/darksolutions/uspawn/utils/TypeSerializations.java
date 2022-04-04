@@ -7,8 +7,6 @@ import lombok.Getter;
 public enum TypeSerializations {
     FIRSTSPAWN("firstspawn", "FirstSpawn type"), SPAWN("spawn", "Normal spawn type");
 
-
     private String dirFile;
     private String name;
-
 }
