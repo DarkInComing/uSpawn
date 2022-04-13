@@ -1,12 +1,15 @@
 package it.darksolutions.uspawn.listener;
 
 import it.darksolutions.uspawn.uSpawn;
+import it.darksolutions.uspawn.utils.TypeSerializations;
 import it.darksolutions.uspawn.utils.chat.ColorUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -44,5 +47,25 @@ public class PlayerListener implements Listener {
         } else {
             event.setQuitMessage(null);
         }
+    }
+
+    @EventHandler
+    public void onPlayerFall(EntityDamageEvent event) {
+        /**
+         * anti void method | fuck skidders like imfound lol
+         */
+        if (!(event.getEntity() instanceof Player))
+            return;
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+            event.setCancelled(true);
+
+            TypeSerializations typeSerializations = TypeSerializations.SPAWN;
+
+            Location location = uSpawn.getInstance().getLocationUtils().deserializeLocation(uSpawn.getInstance(), typeSerializations);
+
+            event.getEntity().teleport(location);
+        }
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL))
+            event.setCancelled(true);
     }
 }
