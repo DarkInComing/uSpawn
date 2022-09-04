@@ -2,6 +2,7 @@ package it.darksolutions.uspawn.listener;
 
 import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.utils.TypeSerializations;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -9,7 +10,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+@RequiredArgsConstructor
 public class SpawnListener implements Listener {
+
+    private final uSpawn spawn;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -19,16 +23,16 @@ public class SpawnListener implements Listener {
             typeSerializations = TypeSerializations.FIRSTSPAWN;
 
             // Check before deserialization
-            if (uSpawn.getInstance().getConfig().getString(typeSerializations.getDirFile()).equals("")) {
-                uSpawn.getInstance().getLogger().info("No firstspawn location for " + joiner.getName());
+            if (spawn.getConfig().getString(typeSerializations.getDirFile()).equals("")) {
+                spawn.getLogger().info("No firstspawn location for " + joiner.getName());
                 return;
             }
 
-            Location location =uSpawn.getInstance().getLocationUtils().deserializeLocation(uSpawn.getInstance(), typeSerializations);
+            Location location = spawn.getLocationUtils().deserializeLocation(spawn, typeSerializations);
 
             // Check firework
-            uSpawn.getInstance().getServer().getScheduler().runTaskLater(uSpawn.getInstance(), () -> {
-                if (uSpawn.getInstance().getConfig().getBoolean("Firework.FirstJoin")) {
+            spawn.getServer().getScheduler().runTaskLater(spawn, () -> {
+                if (spawn.getConfig().getBoolean("Firework.FirstJoin")) {
                     location.getWorld().spawnEntity(location, EntityType.FIREWORK);
                 }
             }, 20L);
@@ -38,16 +42,16 @@ public class SpawnListener implements Listener {
             typeSerializations = TypeSerializations.SPAWN;
 
             // Check before deserialization
-            if (uSpawn.getInstance().getConfig().getString(typeSerializations.getDirFile()).equals("")) {
-                uSpawn.getInstance().getLogger().info("No firstspawn location for " + joiner.getName());
+            if (spawn.getConfig().getString(typeSerializations.getDirFile()).equals("")) {
+                spawn.getLogger().info("No firstspawn location for " + joiner.getName());
                 return;
             }
-            Location location = uSpawn.getInstance().getLocationUtils().deserializeLocation(uSpawn.getInstance(), typeSerializations);
+            Location location = spawn.getLocationUtils().deserializeLocation(spawn, typeSerializations);
 
             joiner.teleport(location);
 
-            uSpawn.getInstance().getServer().getScheduler().runTaskLater(uSpawn.getInstance(), () -> {
-                if (uSpawn.getInstance().getConfig().getBoolean("Firework.NormalJoin")) {
+            spawn.getServer().getScheduler().runTaskLater(spawn, () -> {
+                if (spawn.getConfig().getBoolean("Firework.NormalJoin")) {
                     location.getWorld().spawnEntity(location, EntityType.FIREWORK);
                 }
             }, 20L);

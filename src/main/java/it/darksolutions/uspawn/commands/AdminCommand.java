@@ -3,6 +3,7 @@ package it.darksolutions.uspawn.commands;
 import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.utils.chat.ColorUtils;
 import it.darksolutions.uspawn.utils.TypeSerializations;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -11,21 +12,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+@RequiredArgsConstructor
 public class AdminCommand implements CommandExecutor {
+
+    private final uSpawn spawn;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
 
         if (sender == null) {
-            Bukkit.getConsoleSender().sendMessage(uSpawn.getInstance().getMessagesTranslation().NO_CONSOLE);
+            Bukkit.getConsoleSender().sendMessage(spawn.getMessagesTranslation().NO_CONSOLE);
             return true;
         }
 
         if (args.length == 0) {
-            p.sendMessage("");
-            p.sendMessage(" §6u§6§lSpawn §7v." + uSpawn.getInstance().getDescription().getVersion() + (uSpawn.getInstance().checkVersion(p) ? " §8| §aLatest !" : " §8| §cOldest"));
-            p.sendMessage(" §b§ndiscord.darksolutions.it");
             p.sendMessage(" ");
             p.sendMessage(" §2» §a/uspawn help");
             p.sendMessage(" §8➥ §fGet this page!");
@@ -46,11 +47,8 @@ public class AdminCommand implements CommandExecutor {
         if (p.hasPermission("uspawn.admin") || p.isOp()) {
             switch (args[0]) {
                 case "help":
-                    p.sendMessage("");
-                    p.sendMessage(" §6u§6§lSpawn §7v." + uSpawn.getInstance().getDescription().getVersion() + (uSpawn.getInstance().checkVersion(p) ? " §8| §aLatest !" : " §8| §cOldest"));
-                    p.sendMessage(" §b§ndiscord.darksolutions.it");
                     p.sendMessage(" ");
-                    p.sendMessage(" §2» §a/uspawn help");
+                    p.sendMessage(" §2» §a/uspawn ");
                     p.sendMessage(" §8➥ §fGet this page!");
                     p.sendMessage(" ");
                     p.sendMessage(" §2» §a/uspawn setfirstspawn");
@@ -68,9 +66,9 @@ public class AdminCommand implements CommandExecutor {
                 case "setfirstspawn":
                     Location loc = p.getLocation();
                     try {
-                        uSpawn.getInstance().getLocationUtils().serializeLocation(uSpawn.getInstance(), loc, TypeSerializations.FIRSTSPAWN);
-                        uSpawn.getInstance().saveConfig();
-                        p.sendMessage(uSpawn.getInstance().getMessagesTranslation().SUCCESS_SPAWNPOINT);
+                        spawn.getLocationUtils().serializeLocation(spawn, loc, TypeSerializations.FIRSTSPAWN);
+                        spawn.saveConfig();
+                        p.sendMessage(spawn.getMessagesTranslation().SUCCESS_SPAWNPOINT);
                     } catch (Exception exception) {
                         Bukkit.getConsoleSender().sendMessage("§cThere was an error while saving!");
                         p.sendMessage("§cThere was an error while saving!");
@@ -78,15 +76,15 @@ public class AdminCommand implements CommandExecutor {
                     break;
                 case "firstspawn":
                     TypeSerializations typeSerializations = TypeSerializations.FIRSTSPAWN;
-                    if (uSpawn.getInstance().getConfig().getString(typeSerializations.getDirFile()).equals("")) {
-                        p.sendMessage(uSpawn.getInstance().getMessagesTranslation().NO_FIRSTSPAWNPOINT);
+                    if (spawn.getConfig().getString(typeSerializations.getDirFile()).equals("")) {
+                        p.sendMessage(spawn.getMessagesTranslation().NO_FIRSTSPAWNPOINT);
                        // uSpawn.getInstance().getLogger().info("No firstspawn location for " + p.getName());
                     }
 
-                    Location location = uSpawn.getInstance().getLocationUtils().deserializeLocation(uSpawn.getInstance(), typeSerializations);
+                    Location location = spawn.getLocationUtils().deserializeLocation(spawn, typeSerializations);
 
                     // Check firework
-                    if (uSpawn.getInstance().getConfig().getBoolean("firework.firstjoin")) {
+                    if (spawn.getConfig().getBoolean("firework.firstjoin")) {
                         location.getWorld().spawnEntity(location, EntityType.FIREWORK);
                     }
 
@@ -94,9 +92,9 @@ public class AdminCommand implements CommandExecutor {
                     break;
             }
         } else {
-            p.sendMessage(uSpawn.getInstance().getMessagesTranslation().NO_PERM);
-            p.sendMessage(ColorUtils.translate("&8» &6u&6&lSpawn &7by &adiscord.darksolutions.it"));
-            p.sendMessage(ColorUtils.translate("&7uspawn.darksolutions.it"));
+            p.sendMessage(spawn.getMessagesTranslation().NO_PERM);
+            p.sendMessage(ColorUtils.translate("&8» &6u&6&lSpawn &7by &aDarkInComing_"));
+            p.sendMessage(ColorUtils.translate("§8» &aSourcecode on GitHub."));
         }
         return false;
     }

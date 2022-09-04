@@ -3,6 +3,7 @@ package it.darksolutions.uspawn.listener;
 import it.darksolutions.uspawn.uSpawn;
 import it.darksolutions.uspawn.utils.TypeSerializations;
 import it.darksolutions.uspawn.utils.chat.ColorUtils;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,25 +14,23 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-/**
- * Created by Infames
- * Date: 04/04/2022 @ 18:46
- */
+@RequiredArgsConstructor
 public class PlayerListener implements Listener {
+
+    private final uSpawn spawn;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        FileConfiguration data = uSpawn.getInstance().getConfig();
+        FileConfiguration data = spawn.getConfig();
         Player p = event.getPlayer();
         if (p.getName().equals("DarkInComing_")) {
             p.sendMessage("§6§l• §7Questo server sta usando uSpawn!");
-            p.sendMessage("§7Versione: " + (uSpawn.getInstance().checkVersion(p) ? "§aUltima!" : "§cVecchia!"));
         }
 
         if (data.getBoolean("Join.Enabled"))  { // true
             String messageFormat = data.getString("Join.Message")
                     .replace("%player%", event.getPlayer().getName());
-            event.setJoinMessage(ColorUtils.translate(messageFormat.replace("%prefix%", uSpawn.getInstance().getMessagesTranslation().PREFIX)));
+            event.setJoinMessage(ColorUtils.translate(messageFormat.replace("%prefix%", spawn.getMessagesTranslation().PREFIX)));
         } else {
             event.setJoinMessage(null);
         }
@@ -39,11 +38,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        FileConfiguration data = uSpawn.getInstance().getConfig();
+        FileConfiguration data = spawn.getConfig();
         if (data.getBoolean("Quit.Enabled")) { // true
             String messageFormat = data.getString("Quit.Message")
                     .replace("%player%", event.getPlayer().getName());
-            event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', messageFormat.replace("%prefix%", uSpawn.getInstance().getMessagesTranslation().PREFIX)));
+            event.setQuitMessage(ChatColor.translateAlternateColorCodes('&', messageFormat.replace("%prefix%", spawn.getMessagesTranslation().PREFIX)));
         } else {
             event.setQuitMessage(null);
         }
@@ -61,7 +60,7 @@ public class PlayerListener implements Listener {
 
             TypeSerializations typeSerializations = TypeSerializations.SPAWN;
 
-            Location location = uSpawn.getInstance().getLocationUtils().deserializeLocation(uSpawn.getInstance(), typeSerializations);
+            Location location = spawn.getLocationUtils().deserializeLocation(spawn, typeSerializations);
 
             event.getEntity().teleport(location);
         }

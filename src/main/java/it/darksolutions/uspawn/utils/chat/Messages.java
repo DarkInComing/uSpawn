@@ -1,12 +1,16 @@
 package it.darksolutions.uspawn.utils.chat;
 
 import it.darksolutions.uspawn.uSpawn;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
+@RequiredArgsConstructor
 public class Messages {
 
-    static FileConfiguration file = uSpawn.getInstance().getConfig();
+    private final uSpawn spawn;
+
+    FileConfiguration file = spawn.getConfig();
 
     public String PREFIX = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix"));
     public String NO_PERM = ChatColor.translateAlternateColorCodes('&', file.getString("Prefix") + " " + file.getString("No-perm"));
